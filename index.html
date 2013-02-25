@@ -10,15 +10,37 @@
 		
 		<nav id="mainNav">
 			<ul class="menu">
+
 				<li><a href="#"><span>
-					<img src="img/bt_bar_fkt.png" />Functions
-				</span></a></li>
+						<img src="img/bt_bar_fkt.png" />Functions
+					</span></a>
+					<ul><li>
+					<div class="menuBox" id="functionsMenu">
+						<div class="input">
+							f(x)
+							<input type="text" />
+						</div>
+					</div></li></ul></li>
+
 				<li><a href="#"><span>
-					<img src="img/bt_bar_param.png" />Parameters
-				</span></a></li>
-				<li><a href="#"><span>
-					<img src="img/bt_bar_points.png" />Special Points
-				</span></a></li>
+						<img src="img/bt_bar_param.png" />Parameters
+					</span></a>
+					<ul><li>
+					<div class="menuBox" id="functionsMenu">
+
+					</div></li></ul></li>
+
+				<li class="menuActive"><a href="#"><span>
+						<img src="img/bt_bar_points.png" />Special Points
+					</span></a>
+					<ul><li>
+					<div class="menuBox" id="functionsMenu">
+						<input type="checkbox" />Display roots<br>
+						<input type="checkbox" />Display extrema<br>
+						<input type="checkbox" />Display inflection points<br>
+						<input type="checkbox" />Display discontinuities<br>
+						<input type="checkbox" />Display intersections of graphs<br>
+					</div></li></ul></li>
 		</nav>
 
 		<canvas id="canvas"></canvas>

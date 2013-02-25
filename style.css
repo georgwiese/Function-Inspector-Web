@@ -29,6 +29,7 @@ nav a {
 nav ul {
 	/* Prevent bullets */
 	list-style: none;
+	padding: 0;
 }
 
 nav ul span {
@@ -93,7 +94,7 @@ ul.menu>li {
 	border-left: solid #222 1px;
 }
 
-ul.menu>li:hover {
+ul.menu>li:hover>a>span {
 	background-color: #333333;
 }
 
@@ -130,6 +131,33 @@ ul.submenu>li:hover {
 	bottom: 0%;
 	width: 100%;
 	border-top: solid #111 1px;
+}
+
+/* ************ Menu Box ************ */
+div.menuBox{
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+
+	-webkit-transition: opacity 2s, top 2s;
+	-moz-transition: opacity 2s, top 2s;
+	-o-transition: opacity 2s, top 2s;
+	-ms-transition: opacity 2s, top 2s;
+
+	position: relative;
+	top: -100px;
+	opacity: 0;
+	background-color: rgba(0, 0, 255, 0.5);
+	width: 100%;
+	height: 100px;
+	padding: 5px;
+	margin: 0;
+	font-size: 12px;
+}
+
+.menuActive .menuBox {
+	top: 0px;
+	opacity: 1;
 }
 
 /* ************ Canvas ************ */
