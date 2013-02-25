@@ -39,8 +39,6 @@ nav ul span {
 }
 
 nav#mainNav {
-	left: 0;
-	top: 0;
 	width: 100%;
 	max-width: 703px;
 	height:	33px;
@@ -62,8 +60,9 @@ nav#mainNav {
 
 
 nav#metaNav {
-	display: block;
-	float: right;
+	position: absolute;
+	top: 0;
+	right: 0;
 }
 
 img#logo {
