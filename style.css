@@ -1,0 +1,147 @@
+html {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+body {
+	font-family: Verdana;
+	background-color: black;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+/* ************ Navigation ************ */
+nav {
+	height: auto;
+	background-color: black;
+	color: white;
+	margin: 0;
+}
+
+nav a {
+	/* Prevent unterlined links */
+	text-decoration: none;
+	color: white;
+}
+
+nav ul {
+	/* Prevent bullets */
+	list-style: none;
+}
+
+nav ul span {
+	display: block;
+	padding: 5px 20px;
+	font-size: 16px;
+	vertical-align: top;
+}
+
+nav#mainNav {
+	left: 0;
+	top: 0;
+	width: 100%;
+	max-width: 703px;
+	height:	33px;
+	margin: auto;
+	border: solid #333 1px;
+}
+
+#mainNav img {
+	height: 20px;
+	padding-right: 20px;
+}
+
+#mainNav .menu>li {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 33.333333%;}
+#mainNav .menu {width: 100%;}
+
+
+nav#metaNav {
+	display: block;
+	float: right;
+}
+
+img#logo {
+	padding: 0px 10px;
+}
+
+#metaNav .menu { padding-right: 30px; }
+
+/* Menu Item */
+ul.menu {
+	display: block;
+	float: right;
+	margin: 0;
+	padding: 0;
+	z-index: 2;
+}
+
+ul.menu li {
+	-webkit-transition: background-color 0.3s;
+	-moz-transition: background-color 0.3s;
+	-o-transition: background-color 0.3s;
+	-ms-transition: background-color 0.3s;
+}
+
+ul.menu>li {
+	display: block;
+	float: left;
+	border-left: solid #222 1px;
+}
+
+ul.menu>li:hover {
+	background-color: #333333;
+}
+
+/* Submenus */
+ul.submenu {
+	-webkit-transition: opacity 0.3s, bottom 0.3s;
+	-moz-transition: opacity 0.3s, bottom 0.3s;
+	-o-transition: opacity 0.3s, bottom 0.3s;
+	-ms-transition: opacity 0.3s, bottom 0.3s;
+	position: absolute;
+	bottom: 0%;
+	opacity: 0;
+	padding: 0;
+	margin: 0;
+}
+
+ul.menu li:hover > .submenu, .submenu:hover {
+	opacity: 1;
+	bottom: 100%;
+}
+
+ul.submenu>li {
+	color: #aaaaff;
+	background-color: #111;
+	border-bottom: solid black 1px;
+}
+
+ul.submenu>li:hover {
+	background-color: #333333;
+}
+
+#bottomBar {
+	position: absolute;
+	bottom: 0%;
+	width: 100%;
+	border-top: solid #111 1px;
+}
+
+/* ************ Canvas ************ */
+#canvas {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	z-index: -1;
+}
