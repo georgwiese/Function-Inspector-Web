@@ -2,8 +2,28 @@
 <html>
 	<head>
 		<title>Function Inspector</title>
+		
 		<link rel="stylesheet" type="text/css" href="style.css" />
+		<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
 		<link rel="icon" href="favicon.ico" />
+
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/ui/1.10.1/jquery-ui.min.js"></script>
+		<script type="text/javascript">
+
+			function toggleMenuActive(event){
+				var element = $(event.currentTarget).parent().parent();
+				if (element.hasClass("menuActive"))
+					element.removeClass("menuActive");
+				else
+					element.addClass("menuActive");
+			}
+
+			window.onload = function(){
+				$('#mainNav .menuButton').on("click", toggleMenuActive);
+			}
+
+		</script>
 	</head>
 	
 	<body>
@@ -30,7 +50,7 @@
 
 					</div></li></ul></li>
 
-				<li class="menuActive"><a href="#"><span class="menuButton">
+				<li><a href="#"><span class="menuButton">
 						<img src="img/bt_bar_points.png" />Special Points
 					</span></a>
 					<ul><li>

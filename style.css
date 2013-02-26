@@ -43,7 +43,6 @@ ul.menu {
 ul.menu>li {
 	display: block;
 	float: left;
-	border-left: solid #222 1px;
 }
 
 .menuButton, .submenuButton {
@@ -55,6 +54,7 @@ ul.menu>li {
 	padding: 5px 20px;
 	font-size: 16px;
 	vertical-align: top;
+	border-left: solid #222 1px;
 }
 
 .menuButton {
