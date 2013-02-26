@@ -15,7 +15,6 @@ body {
 /* ************ Navigation ************ */
 nav {
 	height: auto;
-	background-color: black;
 	color: white;
 	margin: 0;
 }
@@ -32,11 +31,78 @@ nav ul {
 	padding: 0;
 }
 
-nav ul span {
+/* ************ Menu Item ************ */
+ul.menu {
+	display: block;
+	float: right;
+	margin: 0;
+	padding: 0;
+	z-index: 2;
+}
+
+ul.menu>li {
+	display: block;
+	float: left;
+	border-left: solid #222 1px;
+}
+
+.menuButton, .submenuButton {
+	-webkit-transition: background-color 0.3s;
+	-moz-transition: background-color 0.3s;
+	-o-transition: background-color 0.3s;
+	-ms-transition: background-color 0.3s;
 	display: block;
 	padding: 5px 20px;
 	font-size: 16px;
 	vertical-align: top;
+}
+
+.menuButton {
+	background-color: black;
+	z-index: 100;
+}
+.submenuButton {
+	color: #aaaaff;
+	background-color: #222;
+	border-bottom: solid black 1px;
+	z-index: 9;
+}
+
+.menuButton:hover { background-color: #333; }
+.submenuButton:hover { background-color: #444; }
+
+ul.menu>.menuActive .menuButton {
+	background-color: #555555;
+}
+
+
+/* Submenus */
+
+ul.submenu {
+	-webkit-transition: opacity 0.3s, bottom 0.3s;
+	-moz-transition: opacity 0.3s, bottom 0.3s;
+	-o-transition: opacity 0.3s, bottom 0.3s;
+	-ms-transition: opacity 0.3s, bottom 0.3s;
+
+	position: absolute;
+	bottom: 0;
+	opacity: 0;
+	padding: 0;
+	margin: 0;
+} 
+
+.menuButton:hover > .submenu, .menu>li:hover .submenu {
+	opacity: 1;
+	bottom: 100%;
+}
+
+/* ************ Special Styling ************ */
+
+#bottomBar {
+	position: absolute;
+	bottom: 0%;
+	width: 100%;
+	border-top: solid #111 1px;
 }
 
 nav#mainNav {
@@ -71,67 +137,7 @@ img#logo {
 }
 
 #metaNav .menu { padding-right: 30px; }
-
-/* Menu Item */
-ul.menu {
-	display: block;
-	float: right;
-	margin: 0;
-	padding: 0;
-	z-index: 2;
-}
-
-ul.menu li {
-	-webkit-transition: background-color 0.3s;
-	-moz-transition: background-color 0.3s;
-	-o-transition: background-color 0.3s;
-	-ms-transition: background-color 0.3s;
-}
-
-ul.menu>li {
-	display: block;
-	float: left;
-	border-left: solid #222 1px;
-}
-
-ul.menu>li:hover>a>span {
-	background-color: #333333;
-}
-
-/* Submenus */
-ul.submenu {
-	-webkit-transition: opacity 0.3s, bottom 0.3s;
-	-moz-transition: opacity 0.3s, bottom 0.3s;
-	-o-transition: opacity 0.3s, bottom 0.3s;
-	-ms-transition: opacity 0.3s, bottom 0.3s;
-	position: absolute;
-	bottom: 0%;
-	opacity: 0;
-	padding: 0;
-	margin: 0;
-}
-
-ul.menu li:hover > .submenu, .submenu:hover {
-	opacity: 1;
-	bottom: 100%;
-}
-
-ul.submenu>li {
-	color: #aaaaff;
-	background-color: #111;
-	border-bottom: solid black 1px;
-}
-
-ul.submenu>li:hover {
-	background-color: #333333;
-}
-
-#bottomBar {
-	position: absolute;
-	bottom: 0%;
-	width: 100%;
-	border-top: solid #111 1px;
-}
+#metaNav .menu>li:hover .menuButton { background-color: #333; }
 
 /* ************ Menu Box ************ */
 div.menuBox{
@@ -139,10 +145,10 @@ div.menuBox{
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 
-	-webkit-transition: opacity 2s, top 2s;
-	-moz-transition: opacity 2s, top 2s;
-	-o-transition: opacity 2s, top 2s;
-	-ms-transition: opacity 2s, top 2s;
+	-webkit-transition: opacity 0.3s, top 0.3s;
+	-moz-transition: opacity 0.3s, top 0.3s;
+	-o-transition: opacity 0.3s, top 0.3s;
+	-ms-transition: opacity 0.3s, top 0.3s;
 
 	position: relative;
 	top: -100px;
@@ -153,6 +159,7 @@ div.menuBox{
 	padding: 5px;
 	margin: 0;
 	font-size: 12px;
+	z-index: -1;
 }
 
 .menuActive .menuBox {
@@ -170,5 +177,5 @@ div.menuBox{
 	margin: 0;
 	padding: 0;
 	border: 0;
-	z-index: -1;
+	z-index: -10;
 }
