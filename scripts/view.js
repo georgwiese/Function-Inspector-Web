@@ -29,7 +29,7 @@ View.prototype.redraw = function() {
 	this.ctx.moveTo(0, this.model.unitToPixel({ x: 0, y : calculate(f, this.model.pixelToUnit({ x : 0, y : 0}).x)}).y)
 	for (var x = 0; x < this.canvas.width; x++) {
 		var y = this.model.unitToPixel({ x: 0, y : calculate(f, this.model.pixelToUnit({ x : x, y : 0}).x)}).y;
-		console.log(x, y, this.model.pixelToUnit({ x : x, y : 0}).x, (x - this.canvas.width / 2) / model.zoomFactor, calculate(f, this.model.pixelToUnit({ x : x, y : 0}).x));
+		//console.log(x, y, this.model.pixelToUnit({ x : x, y : 0}).x, (x - this.canvas.width / 2) / model.zoomFactor, calculate(f, this.model.pixelToUnit({ x : x, y : 0}).x));
 		this.ctx.lineTo(x, y)
 	};
 	this.ctx.stroke();
@@ -40,7 +40,7 @@ View.prototype.redraw = function() {
 	this.ctx.moveTo(0, this.model.unitToPixel({ x: 0, y : calculate(f, this.model.pixelToUnit({ x : 0, y : 0}).x)}).y)
 	for (var x = 0; x < this.canvas.width; x++) {
 		var y = this.model.unitToPixel({ x: 0, y : calculate(f, this.model.pixelToUnit({ x : x, y : 0}).x)}).y;
-		console.log(x, y, this.model.pixelToUnit({ x : x, y : 0}).x, (x - this.canvas.width / 2) / model.zoomFactor, calculate(f, this.model.pixelToUnit({ x : x, y : 0}).x));
+		//console.log(x, y, this.model.pixelToUnit({ x : x, y : 0}).x, (x - this.canvas.width / 2) / model.zoomFactor, calculate(f, this.model.pixelToUnit({ x : x, y : 0}).x));
 		this.ctx.lineTo(x, y)
 	};
 	this.ctx.stroke();
