@@ -9,21 +9,7 @@
 
 		<script type="text/javascript" src="jquery-1.9.1.min.js"></script>
 		<script type="text/javascript" src="jquery-ui.min.js"></script>
-		<script type="text/javascript">
-
-			function toggleMenuActive(event){
-				var element = $(event.currentTarget).parent().parent();
-				if (element.hasClass("menuActive"))
-					element.removeClass("menuActive");
-				else
-					element.addClass("menuActive");
-			}
-
-			window.onload = function(){
-				$('#mainNav .menuButton').on("click", toggleMenuActive);
-			}
-
-		</script>
+		<script type="text/javascript" src="script.js"></script>
 	</head>
 	
 	<body>
