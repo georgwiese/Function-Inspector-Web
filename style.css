@@ -62,17 +62,17 @@ ul.menu>li {
 	z-index: 100;
 }
 .submenuButton {
-	color: #aaaaff;
 	background-color: #222;
 	border-bottom: solid black 1px;
 	z-index: 9;
 }
 
-.menuButton:hover { background-color: #333; }
-.submenuButton:hover { background-color: #444; }
+.menuButton:hover, .submenuButton:hover, ul.menu>.menuActive .menuButton:hover {
+	background-color: #216A85;
+}
 
 ul.menu>.menuActive .menuButton {
-	background-color: #555555;
+	background-color: #1c3640;
 }
 
 
@@ -137,7 +137,7 @@ img#logo {
 }
 
 #metaNav .menu { padding-right: 30px; }
-#metaNav .menu>li:hover .menuButton { background-color: #333; }
+#metaNav .menu>li:hover .menuButton { background-color: #216A85; }
 
 /* ************ Menu Box ************ */
 div.menuBox{
@@ -153,13 +153,15 @@ div.menuBox{
 	position: relative;
 	top: -100px;
 	opacity: 0;
-	background-color: rgba(0, 0, 255, 0.5);
+	background-color: rgba( 217, 249, 255, 0.85);
 	width: 100%;
 	height: 100px;
 	padding: 5px;
 	margin: 0;
+	border-left: solid black 1px;
 	font-size: 12px;
 	z-index: -1;
+	color: black;
 }
 
 .menuActive .menuBox {
