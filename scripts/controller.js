@@ -23,7 +23,7 @@ mouseTracker.setDragging = function(isDragging, evt){
 };
 
 function toggleMenuActive(event){
-	var element = $(event.currentTarget).parent().parent();
+	var element = $(this).parent();
 	if (element.hasClass("menuActive"))
 		element.removeClass("menuActive");
 	else
@@ -36,13 +36,13 @@ window.onload = function(){
 	//mouseTracker = new MouseTracker();
 
 	$('#mainNav .menuButton').on("click", toggleMenuActive);
+
 	// Mouse
 	$(window).mousedown( function(evt){
 		mouseTracker.setDragging(true, evt);
 	})
 	$(window).mouseup( function(){ mouseTracker.setDragging(false) })
 	$(window).mousemove( function(evt){
-		console.log(mouseTracker.isDragging);
 		var diff = mouseTracker.update(evt);
 		if(mouseTracker.isDragging){
 			model.middle.x += diff.x / model.zoomFactor;
@@ -50,4 +50,13 @@ window.onload = function(){
 			view.redraw();
 		}
 	})
+
+	// UI Components
+	$('#radioParam').buttonset()
+	.find('label')
+	.css({
+		'width' : '33.3%',
+		'box-sizing': 'border-box'
+	});
+	$('#sliderParam').slider();
 }
