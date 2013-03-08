@@ -38,10 +38,10 @@ window.onload = function(){
 	$('#mainNav .menuButton').on("click", toggleMenuActive);
 
 	// Mouse
-	$(window).mousedown( function(evt){
-		mouseTracker.setDragging(true, evt);
-	})
-	$(window).mouseup( function(){ mouseTracker.setDragging(false) })
+	$(window).mousedown( function(evt){ 
+		mouseTracker.setDragging(true, evt); })
+	$(window).mouseup( function(){ 
+		mouseTracker.setDragging(false) })
 	$(window).mousemove( function(evt){
 		var diff = mouseTracker.update(evt);
 		if(mouseTracker.isDragging){
