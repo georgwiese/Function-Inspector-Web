@@ -111,10 +111,10 @@ ul.submenu {
 }
 
 nav#mainNav {
-	width: 100%;
-	max-width: 703px;
-	height:	34px;
-	margin: auto;
+	position: absolute;
+	left: 50%;
+	width: 720px;
+	margin: 0 -360px;
 	border: solid #333 1px;
 }
 
@@ -129,7 +129,6 @@ nav#mainNav {
 	-moz-box-sizing: border-box;
 	width: 33.333333%;}
 #mainNav .menu {width: 100%;}
-
 
 nav#metaNav {
 	position: absolute;
@@ -155,11 +154,11 @@ div.menuBox{
 	-o-transition: opacity 0.3s, top 0.3s;
 	-ms-transition: opacity 0.3s, top 0.3s;
 
-	position: relative;
+	position: absolute;
 	top: -150px;
 	opacity: 0;
 	background-color: rgba( 217, 249, 255, 0.85);
-	width: 100%;
+	width: 240px;
 	padding: 10px;
 	margin: 0;
 	border-left: solid black 1px;
@@ -169,7 +168,7 @@ div.menuBox{
 }
 
 .menuActive .menuBox {
-	top: 0px;
+	top: 100%;
 	opacity: 1;
 }
 
