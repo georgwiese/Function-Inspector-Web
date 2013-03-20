@@ -1,26 +1,6 @@
 var model = null;
 var view  = null;
-//var mouseTracker = null;
-
-var mouseTracker = {
-	x : 0,
-	y : 0,
-	isDragging : false
-};
-
-mouseTracker.update = function(evt){
-	var result = {
-		x : this.x - evt.pageX,
-		y : this.y - evt.pageY  }
-	this.x = evt.pageX; this.y = evt.pageY;
-	return result;
-};
-
-mouseTracker.setDragging = function(isDragging, evt){
-	this.isDragging = isDragging;
-	if (typeof evt !== 'undefined')
-		this.update(evt);
-};
+var mouseTracker = null;
 
 function toggleMenuActive(event){
 	var element = $(this).parent();
@@ -33,7 +13,8 @@ function toggleMenuActive(event){
 window.onload = function(){
 	model = new Model();
 	view = new View(model);
-	//mouseTracker = new MouseTracker();
+	mouseTracker = new MouseTracker();
+	console.log(mouseTracker);
 
 	$('#mainNav .menuButton').on("click", toggleMenuActive);
 
