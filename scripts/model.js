@@ -6,6 +6,24 @@ var Model = function(){
 		x : 0,
 		y : 0
 	};
+	this.functions = []
+};
+
+Model.prototype.addFunction = function(color){
+	this.functions.push(new MathFunction(color));
+}
+
+Model.prototype.setFunction = function(index, value){
+	this.functions[index].setValue(value);
+}
+
+Model.prototype.getFunctions = function() {
+	var res = [];
+	for (var i = this.functions.length - 1; i >= 0; i--) {
+		if (this.functions[i].hasValue())
+			res.push(this.functions[i]);
+	};
+	return res;
 };
 
 Model.prototype.pixelToUnit = function(point){

@@ -10,9 +10,11 @@
 		<script type="text/javascript" src="libs/jquery-1.9.1.min.js"></script>
 		<script type="text/javascript" src="libs/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="scripts/view.js"></script>
+		<script type="text/javascript" src="scripts/ui/functioninput.js"></script>
 		<script type="text/javascript" src="scripts/model.js"></script>
-		<script type="text/javascript" src="scripts/controller/mousetracker.js"></script>
+		<script type="text/javascript" src="scripts/model/mathfunction.js"></script>
 		<script type="text/javascript" src="scripts/controller.js"></script>
+		<script type="text/javascript" src="scripts/controller/mousetracker.js"></script>
 		<script type="text/javascript" src="libs/calcfkts/CalcFkts.js"></script>
 	</head>
 	
@@ -26,17 +28,13 @@
 					</span>
 					<ul><li>
 					<div class="menuBox" id="functionsMenu">
-						<div class="input">
-							f(x)
-							<input type="text" />
-						</div>
 					</div></li></ul></li>
 
 				<li><span class="menuButton">
 						<img src="img/bt_bar_param.png" />Parameters
 					</span>
 					<ul><li>
-					<div class="menuBox" id="functionsMenu">
+					<div class="menuBox" id="paramMenu">
 						<form><div id="radioParam">
 							<input type="radio" id="radioA" name="radio" checked="checked	" /><label for="radioA">a</label>
 							<input type="radio" id="radioB" name="radio" /><label for="radioB">b</label>
@@ -49,7 +47,7 @@
 						<img src="img/bt_bar_points.png" />Special Points
 					</span>
 					<ul><li>
-					<div class="menuBox" id="functionsMenu">
+					<div class="menuBox" id="pointsMenu">
 						<input type="checkbox" id="cbRoots"/><label for="cbRoots">Display roots</label><br>
 						<input type="checkbox" id="cbExtrema"/><label for="cbExtrema">Display extrema</label><br>
 						<input type="checkbox" id="cbInflection"/><label for="cbInflection">Display inflection points</label><br>

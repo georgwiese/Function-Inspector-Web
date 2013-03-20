@@ -14,7 +14,6 @@ window.onload = function(){
 	model = new Model();
 	view = new View(model);
 	mouseTracker = new MouseTracker();
-	console.log(mouseTracker);
 
 	$('#mainNav .menuButton').on("click", toggleMenuActive);
 
@@ -31,13 +30,4 @@ window.onload = function(){
 			view.redraw();
 		}
 	})
-
-	// UI Components
-	$('#radioParam').buttonset()
-	.find('label')
-	.css({
-		'width' : '33.3%',
-		'box-sizing': 'border-box'
-	});
-	$('#sliderParam').slider();
 }
