@@ -13,6 +13,9 @@ function toggleMenuActive(event){
 window.onload = function(){
 	model = new Model();
 	view = new View(model);
+	model.changedCallback = function(){
+		view.redraw();
+	}
 	mouseTracker = new MouseTracker();
 
 	$('#mainNav .menuButton').on("click", toggleMenuActive);

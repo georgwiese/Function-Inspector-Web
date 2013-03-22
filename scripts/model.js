@@ -7,6 +7,13 @@ var Model = function(){
 		y : 0
 	};
 	this.functions = []
+
+	this.ZOOM_FACTOR = 1.1;
+};
+
+Model.prototype.changed = function() {
+	if (typeof this.changedCallback === 'function')
+		this.changedCallback();
 };
 
 Model.prototype.addFunction = function(color){
@@ -26,6 +33,16 @@ Model.prototype.getFunctions = function() {
 	return res;
 };
 
+Model.prototype.zoomIn = function() {
+	this.zoomFactor *= this.ZOOM_FACTOR;
+	this.changed();
+};
+
+Model.prototype.zoomOut = function() {
+	this.zoomFactor /= this.ZOOM_FACTOR;
+	this.changed();
+};
+
 Model.prototype.pixelToUnit = function(point){
 	// Point2D((px-width/2)/30/zoom[0]+middle[0], (height/2-py)/30/zoom[1]+middle[1]);
 	return {
@@ -41,3 +58,9 @@ Model.prototype.unitToPixel = function(point){
 		y : -(point.y - this.middle.y) * this.zoomFactor + canvas.height / 2
 	}
 };
+
+// Some helper Methods
+Model.prototype.pixelToUnitX = function(x) { return this.pixelToUnit({x:x, y:0}).x;};
+Model.prototype.pixelToUnitY = function(y) { return this.pixelToUnit({x:0, y:y}).y;};
+Model.prototype.unitToPixelX = function(x) { return this.unitToPixel({x:x, y:0}).x;};
+Model.prototype.unitToPixelY = function(y) { return this.unitToPixel({x:0, y:y}).y;};
