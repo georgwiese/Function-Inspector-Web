@@ -43,7 +43,6 @@ View.prototype.redraw = function() {
 	ctx.fillRect(0, 0, document.width, document.height)
 
 	var functions = this.model.getFunctions();
-	console.log("Functions:", functions);
 	for (var i = functions.length - 1; i >= 0; i--) {
 		var f = functions[i];
 
@@ -55,7 +54,6 @@ View.prototype.redraw = function() {
 			//y = this.model.unitToPixel({ x: 0, y : f.calculate(this.model.pixelToUnit({ x : x, y : 0}).x)}).y;
 			x2 = this.model.pixelToUnit({ x : x, y : 0}).x;
 			y = this.model.unitToPixel({ x: 0, y : f.calculate(x2)}).y;
-			//console.log(x, y, this.model.pixelToUnit({ x : x, y : 0}).x, (x - this.canvas.width / 2) / model.zoomFactor, f.calculate(this.model.pixelToUnit({ x : x, y : 0}).x));
 			ctx.lineTo(x, y)
 		};
 		ctx.stroke();

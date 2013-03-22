@@ -1,4 +1,3 @@
-console.log("MathFunction");
 var MathFunction = function(color){
 	this.function = null;
 	this.string = "";
