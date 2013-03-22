@@ -26,7 +26,7 @@ window.onload = function(){
 		var diff = mouseTracker.update(evt);
 		if(mouseTracker.isDragging){
 			model.middle.x += diff.x / model.zoomFactor;
-			model.middle.y += diff.y / model.zoomFactor;
+			model.middle.y -= diff.y / model.zoomFactor;
 			view.redraw();
 		}
 	})
