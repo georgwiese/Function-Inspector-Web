@@ -3,39 +3,38 @@ var MathFunction = function(color){
 	this.string = "";
 	this.color = color;
 
-	// Functions and their translation
-	this.functionsArray = ['sqrt', 'sin', 'cos', 'tan', 'abs',
+	// Functions
+	this.functionsArray  = ['sqrt', 'sin', 'cos', 'tan', 'abs',
 							'ln', 'log', 'asin', 'acos', 'atan'];
-	for (f in this.functions)
-		this.functionsArray.push(f);
 
-	this.functionsString = this.functionsArray.join('|');
+	this.functionsString  = this.functionsArray.join('\\(|') + '\\(';
+	this.numberString     = '(?:\\(?(?:\\d+(?:(?:\\.|,)\\d+)?|x|a|b|c\\)))';
+	this.elementString    = '(?:\\(?(?:' + this.functionsString + '|\\d+(?:(?:\\.|,)\\d+)?|x|a|b|c\\)))';
 
 	// Regular expressions
 	this.rValidFunctionString =
-		new RegExp('(((\\d+((\\.|,)\\d+)?)|x|a|b|c|' + this.functionsString + ')' + 
-			'(\\+|\-|\\*|\\/|\\^|\\(|\\))?)+');
-	console.log('rValidFunctionString', this.rValidFunctionString.toString());
+		new RegExp( this.elementString + '(?:(?:\\+|\\-|\\*|\\/|\\^)' + this.elementString + ')*' );
+	//console.log('rValidFunctionString', this.rValidFunctionString.toString());
 	this.rWhiteSpace = /\s+/;
-	this.rFunction = new RegExp(this.functionsString, 'g');
+	this.rComma = /\,/;
+	this.rFunction = new RegExp('^(?:' + this.functionsString + ')$');
+	//console.log('rFunction', this.rFunction.toString());
+	this.rNeedsMultiplySymbol =
+		new RegExp('(' + this.numberString + ')(' + this.elementString + ')', 'g');
+	//console.log('rNeedsMultiplySymbol', this.rNeedsMultiplySymbol.toString());
 };
 
 (function declareFunctions(){
 
 	// Constants
-	var pi    = Math.PI;
-	var e     = Math.E;
+	var pi    = Math.PI;		var e     = Math.E;
 	// Functions
-	var sqrt  = Math.sqrt;
-	var sin   = Math.sin;
-	var cos   = Math.cos;
-	var tan   = Math.tan;
+	var sqrt  = Math.sqrt;		var ln    = Math.log;
+	var sin   = Math.sin;		var asin  = Math.asin;
+	var cos   = Math.cos;		var acos  = Math.acos;
+	var tan   = Math.tan;		var atan  = Math.atan;
 	var abs   = Math.abs;
-	var ln    = Math.log;
 	var log   = function(x){return Math.log(x) * Math.LOG10E};
-	var asin  = Math.asin;
-	var acos  = Math.acos;
-	var atan  = Math.atan;
 	//var sinh
 	//var cosh
 	//var tanh
@@ -45,21 +44,53 @@ var MathFunction = function(color){
 
 	MathFunction.prototype.setValue = function(str) {
 		this.string = this.prepareString(str);
-		if (this.checkString(this.string))
+		if (this.string !== null)
 			eval("this.function = function(x, a, b, c){ return " + this.string + ";}");
 		else
 			this.function = null;
 	};
 })()
 
-MathFunction.prototype.checkString = function(string) {
-	// return whether this is a valid function string
-	console.log('Test:', string, 'Result:', this.rValidFunctionString.test(string));
-	return this.rValidFunctionString.test(string);
-};
-
 MathFunction.prototype.prepareString = function(string) {
-	return string.replace(this.rWhiteSpace, '').toLowerCase();
+	// Transform the string to valid Javascript syntax and check if it is valid
+	var _this = this;
+
+	// Transform string to match Javascript Syntax
+	var insertMultiplySymbol = function(match, firstFactor, secondFactor){
+		console.log(arguments);
+		if (!_this.rFunction.test(match))
+			return firstFactor + '*' + secondFactor;
+		return match;
+	}
+	var s = string.replace(this.rWhiteSpace, '')
+				.replace(this.rComma, '.')
+				.replace(this.rNeedsMultiplySymbol, insertMultiplySymbol)
+				// Do this twice, because they might be interleaving
+				.replace(this.rNeedsMultiplySymbol, insertMultiplySymbol)
+				.toLowerCase();
+	console.log('After transformation:', s);
+
+	// Test whether string is valid
+	if (!this.rValidFunctionString.test(s)){
+		console.log('String \'' + s + '\' failed rValidFunctionString.')
+		return null;
+	}
+	var bracketCount = 0;
+	for (var i = 0; i <= s.length; i++) {
+		var c = s.charAt(i);
+		if (c === '(') bracketCount++;
+		if (c === ')') bracketCount--;
+		if (bracketCount < 0){
+			console.log('String \'' + s + '\' has unmatched brackets. (1)')
+			return null;
+		}
+	};
+	if (bracketCount != 0){
+		console.log('String \'' + s + '\' has unmatched brackets. (2)')
+		return null;
+	}
+
+	return s;
 };
 
 MathFunction.prototype.calculate = function() {
