@@ -4,13 +4,8 @@ var MathFunction = function(color){
 	this.color = color;
 
 	// Functions and their translation
-	this.functions = {
-		sin : "Math.sin",
-		cos : "Math.cos",
-		tan : "Math.tan"
-	};
-
-	this.functionsArray = [];
+	this.functionsArray = ['sqrt', 'sin', 'cos', 'tan', 'abs',
+							'ln', 'log', 'asin', 'acos', 'atan'];
 	for (f in this.functions)
 		this.functionsArray.push(f);
 
@@ -25,13 +20,37 @@ var MathFunction = function(color){
 	this.rFunction = new RegExp(this.functionsString, 'g');
 };
 
-MathFunction.prototype.setValue = function(str) {
-	this.string = str.replace(this.rWhiteSpace, '');
-	if (this.checkString(str))
-		eval("this.function = function(x, a, b, c){ return " + this.prepareString(str) + ";}");
-	else
-		this.function = null;
-};
+(function declareFunctions(){
+
+	// Constants
+	var pi    = Math.PI;
+	var e     = Math.E;
+	// Functions
+	var sqrt  = Math.sqrt;
+	var sin   = Math.sin;
+	var cos   = Math.cos;
+	var tan   = Math.tan;
+	var abs   = Math.abs;
+	var ln    = Math.log;
+	var log   = function(x){return Math.log(x) * Math.LOG10E};
+	var asin  = Math.asin;
+	var acos  = Math.acos;
+	var atan  = Math.atan;
+	//var sinh
+	//var cosh
+	//var tanh
+	//var asinh
+	//var acosh
+	//var atanh
+
+	MathFunction.prototype.setValue = function(str) {
+		this.string = this.prepareString(str);
+		if (this.checkString(this.string))
+			eval("this.function = function(x, a, b, c){ return " + this.string + ";}");
+		else
+			this.function = null;
+	};
+})()
 
 MathFunction.prototype.checkString = function(string) {
 	// return whether this is a valid function string
@@ -40,14 +59,7 @@ MathFunction.prototype.checkString = function(string) {
 };
 
 MathFunction.prototype.prepareString = function(string) {
-	// Replace functions
-	var _this = this;
-	var res = string.replace(this.rFunction, function(f){
-		console.log('Replacing:', f, 'with:', _this.functions[f]);
-		return _this.functions[f];
-	})
-	console.log('After preparation:', res);
-	return res;
+	return string.replace(this.rWhiteSpace, '').toLowerCase();
 };
 
 MathFunction.prototype.calculate = function() {
