@@ -52,6 +52,22 @@ var MathFunction = function(color){
 		else
 			this.function = null;
 	};
+
+	MathFunction.prototype.checkFunctionString = function(s) {
+		try{
+			eval("var f = function(x, a, b, c){ return " + s + ";}");
+		} catch (e) {
+			console.log("Function declaration failed", e);
+			return false;
+		}
+		try{
+			f(1, 1, 1, 1);
+		} catch (e) {
+			console.log("Function execution failed", e);
+			return false;
+		}
+		return true;
+	};
 })()
 
 MathFunction.prototype.prepareString = function(string) {
@@ -134,6 +150,9 @@ MathFunction.prototype.prepareString = function(string) {
 	}
 
 	console.log('After transformation:', s);
+
+	if (!this.checkFunctionString(s))
+		return null;
 
 	return s;
 };
