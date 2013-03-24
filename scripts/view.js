@@ -34,7 +34,7 @@ var View = function(model){
 
 	// Canvas
 	this.canvas = $('#canvas')[0];
-	$(window).resize( this.redraw );
+	$(window).resize( function(){ _this.redraw(); });
 	this.redraw();
 };
 
