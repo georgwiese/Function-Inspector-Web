@@ -7,24 +7,24 @@ var MathFunction = function(color){
 	this.functionsArray  = ['sqrt', 'sin', 'cos', 'tan', 'abs',
 							'ln', 'log', 'asin', 'acos', 'atan'];
 
-	this.functionsString  = this.functionsArray.join('\\(|') + '\\(';
-	this.numberString     = '(?:\\(?(?:\\d+(?:(?:\\.|,)\\d+)?|x|a|b|c)\\)?)';
-	this.elementString    = '(?:\\(?(?:' + this.functionsString + '|\\d+(?:(?:\\.|,)\\d+)?|x|a|b|c)\\)?)';
+	// RegEx strings
+	this.sFunction        = this.functionsArray.join('\\(|') + '\\(';
+	// variable or literal   (   "(" (     <decimal>         |x,a,b,c ) ")" )
+	this.sNumber          = '(?:\\(?(?:\\d+(?:(?:\\.|,)\\d+)?|x|a|b|c)\\)?)';
+	// number or function    (   "("(       <function>       |      <number>      ))
+	this.sElement         = '(?:\\(?(?:' + this.sFunction + '|' + this.sNumber + '))';
+	// operator
+	this.sOperator        = '[\\+\\-\\*\\/\\^]';
 
-	// Regular expressions
-	this.rValidFunctionString =
-		new RegExp( this.elementString + '(?:[\\+\\-\\*\\/\\^]' + this.elementString + ')*' );
-	//console.log('rValidFunctionString', this.rValidFunctionString.toString());
+	// Regular expressions                   <element>     (      <operator> ?       <element>    )*
+	this.rValidFunctionString = new RegExp( this.sElement+'(?:'+this.sOperator+'?'+this.sElement+')*' );
 	this.rWhiteSpace = /\s+/;
 	this.rComma = /\,/;
-	this.rSymbol = /[\+\-\*\/\^]/;
-	this.rFunction = new RegExp('^(?:' + this.functionsString + ')$');
-	//console.log('rFunction', this.rFunction.toString());
-	this.rNeedsMultiplySymbol =
-		new RegExp('(' + this.numberString + ')(' + this.elementString + ')', 'g');
-	this.rExponent =
-		new RegExp('.*?\\^.*','g');
-	//console.log('rNeedsMultiplySymbol', this.rNeedsMultiplySymbol.toString());
+	this.rSymbol = new RegExp(this.sOperator);
+	this.rFunction = new RegExp('^' + this.sFunction + '$');
+	this.rNeedsMultiplySymbol = new RegExp('(' + this.sNumber + ')(' + this.sElement + ')', 'g');
+	// exponent              <before>"^"<after>
+	this.rExponent = new RegExp('.*?\\^.*','g');
 };
 
 (function declareFunctions(){
@@ -74,6 +74,12 @@ MathFunction.prototype.prepareString = function(string) {
 		return null;
 	}
 
+	// Test whether string is valid
+	if (!this.rValidFunctionString.test(string)){
+		console.log('String \'' + string + '\' failed rValidFunctionString.')
+		return null;
+	}
+
 	// Transform string to match Javascript Syntax
 	var insertMultiplySymbol = function(match, firstFactor, secondFactor){
 		console.log(arguments);
@@ -104,7 +110,6 @@ MathFunction.prototype.prepareString = function(string) {
 			if (bracketCount == 0 && _this.rSymbol.test(c))
 				break;
 		};
-		console.log('Pow:', base, exponent);
 		return 'pow(' + base + ', ' + exponent + ')';
 	}
 	var s = string.replace(this.rWhiteSpace, '')
@@ -120,12 +125,6 @@ MathFunction.prototype.prepareString = function(string) {
 	}
 
 	console.log('After transformation:', s);
-
-	// Test whether string is valid
-	if (!this.rValidFunctionString.test(s)){
-		console.log('String \'' + s + '\' failed rValidFunctionString.')
-		return null;
-	}
 
 	return s;
 };
