@@ -92,25 +92,34 @@ MathFunction.prototype.prepareString = function(string) {
 		console.log(arguments);
 		exponentFound = true;
 		var index = match.indexOf('^');
-		var base = '', exponent = '', bracketCount = 0;
-		for (var i = index - 1; i >= 0; i--) {
-			var c = match.charAt(i);
-			base = c + base;
+		bracketCount = 0;
+		for (var baseIndex = index - 1; baseIndex >= 0; baseIndex--) {
+			var c = match.charAt(baseIndex);
 			if (c === '(') bracketCount++;
 			if (c === ')') bracketCount--;
-			if (bracketCount == 0 && _this.rSymbol.test(c))
+			if (_this.rSymbol.test(c)){
+				baseIndex++;
+				break;
+			}
+			if (bracketCount == 0)
 				break;
 		};
 		bracketCount = 0;
-		for (i = index + 1; i <= match.length; i++) {
-			c = match.charAt(i);
-			exponent = exponent + c;
+		for (exponentIndex = index + 1; exponentIndex <= match.length; exponentIndex++) {
+			c = match.charAt(exponentIndex);
 			if (c === '(') bracketCount++;
 			if (c === ')') bracketCount--;
-			if (bracketCount == 0 && _this.rSymbol.test(c))
+			if (_this.rSymbol.test(c)){
+				exponentIndex--;
+				break;
+			}
+			if (bracketCount == 0)
 				break;
 		};
-		return 'pow(' + base + ', ' + exponent + ')';
+		return match.substring(0, baseIndex) + 
+			'pow(' + match.substring(baseIndex, index) +
+			', ' + match.substring(index + 1, exponentIndex + 1) + ')' + 
+			match.substring(exponentIndex + 1);
 	}
 	var s = string.replace(this.rWhiteSpace, '')
 				.replace(this.rComma, '.')
