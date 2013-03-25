@@ -11,6 +11,10 @@ var View = function(model){
 
 	// Param buttons
 	$('#radioParam').buttonset()
+	.click( function(evt) {
+		_this.updateSlider(
+			$('#radioParam label[aria-pressed=true]').text());
+	})
 	.find('label')
 	.css({
 		'width' : '33.3%',
@@ -18,7 +22,7 @@ var View = function(model){
 	});
 
 	// Param slider
-	$('#sliderParam').slider();
+	this.updateSlider('a');
 
 	// Function inputs
 	var functionsMenu = $('#functionsMenu')
@@ -36,6 +40,25 @@ var View = function(model){
 	this.canvas = $('#canvas')[0];
 	$(window).resize( function(){ _this.redraw(); });
 	this.redraw();
+};
+
+View.prototype.updateSlider = function(param) {
+	var _this = this;
+	var paramObject = this.model.parameters[param];
+	var refreshSlider = function(){
+		_this.model.parameters[param].val = $('#sliderParam').slider('value');
+		console.log(param, '-->', _this.model.parameters[param].val);
+		_this.redraw();
+	}
+	console.log('Update slider for', param, '; paramObject:', paramObject);
+	$('#sliderParam').slider({
+		slide  : refreshSlider,
+		change : refreshSlider,
+		min    : paramObject.min,
+		max    : paramObject.max,
+		value  : paramObject.val,
+		step   : (paramObject.max - paramObject.min) / 100
+	});
 };
 
 View.prototype.redraw = function() {

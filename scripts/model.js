@@ -6,7 +6,12 @@ var Model = function(){
 		x : 0,
 		y : 0
 	};
-	this.functions = []
+	this.functions = [];
+	this.parameters = {
+		a : { min : 0, max : 5, val : 2},
+		b : { min : 0, max : 5, val : 2},
+		c : { min : 0, max : 5, val : 2}
+	}
 
 	this.ZOOM_FACTOR = 1.1;
 };
@@ -17,7 +22,7 @@ Model.prototype.changed = function() {
 };
 
 Model.prototype.addFunction = function(color){
-	this.functions.push(new MathFunction(color));
+	this.functions.push(new MathFunction(this, color));
 }
 
 Model.prototype.setFunction = function(index, value){
@@ -31,6 +36,11 @@ Model.prototype.getFunctions = function() {
 			res.push(this.functions[i]);
 	};
 	return res;
+};
+
+Model.prototype.getParams = function() {
+	var p = this.parameters;
+	return [p.a.val, p.b.val, p.c.val];
 };
 
 Model.prototype.zoomIn = function() {

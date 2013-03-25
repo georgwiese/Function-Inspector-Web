@@ -1,7 +1,8 @@
-var MathFunction = function(color){
+var MathFunction = function(model, color){
 	this.function = null;
 	this.string = "";
 	this.color = color;
+	this.model = model;
 
 	// Functions
 	this.functionsArray  = ['sqrt', 'sin', 'cos', 'tan', 'abs',
@@ -157,8 +158,9 @@ MathFunction.prototype.prepareString = function(string) {
 	return s;
 };
 
-MathFunction.prototype.calculate = function() {
-	return this.function.apply(this, arguments);
+MathFunction.prototype.calculate = function(x) {
+	var params = this.model.getParams();
+	return this.function.call(this, x, params[0], params[1], params[2]);
 };
 
 MathFunction.prototype.hasValue = function() {
