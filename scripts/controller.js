@@ -32,5 +32,5 @@ window.onload = function(){
 			model.middle.y -= diff.y / model.zoomFactor;
 			view.redraw();
 		}
-	})
+	});
 }
