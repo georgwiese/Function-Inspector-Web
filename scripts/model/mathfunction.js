@@ -1,5 +1,5 @@
 var MathFunction = function(model, color){
-	this.expression = null;
+	this.fkt = null;
 	this.string = "";
 	this.color = color;
 	this.model = model;
@@ -33,14 +33,12 @@ MathFunction.prototype.prepareString = function(string) {
 
 	// Transform string to match Javascript Syntax
 	var insertMultiplySymbol = function(match, firstFactor, secondFactor){
-		console.log(arguments);
 		if (!RegEx.rFunction.test(match))
 			return firstFactor + '*' + secondFactor;
 		return match;
 	}
 
 	var insertPow = function(match){
-		console.log(arguments);
 		exponentFound = true;
 		var index = match.indexOf('^');
 		bracketCount = 0;
@@ -90,18 +88,24 @@ MathFunction.prototype.prepareString = function(string) {
 };
 
 MathFunction.prototype.setValue = function(s) {
+	this.fkt = null;
+
 	var prepared = this.prepareString(s);
-	if (prepared)
-		this.expression = new Expression(prepared);
-	else
-		this.expression = null;
+	if (prepared){
+		try {
+			console.log("Javascript string:", new Expression(prepared).string)
+			this.fkt = new Function("x", "a", "b", "c", "return " + new Expression(prepared).string + ";" );
+		} catch (e) {
+			console.log(e);
+		}
+	}
 };
 
 MathFunction.prototype.calculate = function(x) {
 	var params = this.model.getParams();
-	return this.expression.calculate(x, params[0], params[1], params[2]);
+	return this.fkt(x, params[0], params[1], params[2]);
 };
 
 MathFunction.prototype.hasValue = function() {
-	return this.expression != null;
+	return this.fkt != null;
 };

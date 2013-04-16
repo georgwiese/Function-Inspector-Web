@@ -1,21 +1,3 @@
-var benchmark = function(){
-	var exp  = new Expression("1+2+3-1-2-3+4*5*6/4/5/6-1+1/x");
-	var func = new Function("x", "return 1+2+3-1-2-3+4*5*6/4/5/6-1+1/x;");
-
-	var start, i;
-	console.log("=== Benchmark ===");
-
-	start = (new Date()).getTime();
-	for(i = 0; i < 100000; i++)
-		exp.calculate(i);
-	console.log("--> Exp:", (new Date()).getTime() - start);
-
-	start = (new Date()).getTime();
-	for(i = 0; i < 100000; i++)
-		func(i);
-	console.log("--> Func:", (new Date()).getTime() - start);
-};
-
 (function(){
 	// Helper functions
 	var split = function(string, separatorArray) {
@@ -52,123 +34,78 @@ var benchmark = function(){
 	};
 
 	window.Expression = function( s ){
-		var summands = [];
-		console.log('Expression:', s);
-
+		var _this = this;
+		this.string = "";
 		split(s, ['+', '-']).forEach( function(summandString) {
-			summands.push( new Summand(summandString) );
+			_this.string += new Summand(summandString).string;
 		});
-
-		this.calculate = function(x, a, b, c) {
-			//console.log("E:", summands.length);
-			var res = 0;
-			summands.forEach( function(summand){
-				res += summand.calculate(x, a, b, c);
-			});
-			//console.log("Done.");
-			return res;
-		}
-
-		console.log("Resulting Expression", this);
 	};
 
 	window.Summand = function( s ){
-		var factors = [];
-		var positive = s.charAt(0) === '+';
-		console.log('Summand:', s);
+		var _this = this;
+		this.positive = s.charAt(0) === '+';
 
-		split(s.substring(1), ['*', '/']).forEach( function(factorString) {
-			factors.push( new Factor(factorString) );
+		this.string = this.positive? '+' : '-';
+		split(s.substring(1), ['*', '/']).forEach( function(factorString, i) {
+			var factor = new Factor(factorString).string;
+			if (i == 0){
+				factor = factor.substring(1);
+			}
+			_this.string += factor;
 		});
-
-		this.calculate = function(x, a, b, c) {
-			//console.log("S:", factors.length);
-			var res = 1;
-			factors.forEach( function(factor){
-				res *= factor.calculate(x, a, b, c);
-			});
-			if (!positive)
-				res *= -1;
-			return res;
-		};
 	};
 
 	window.Factor = function( s ){
-		console.log('Factor:', s);
 
-		// Function and Constant definition
+		// Function and Constant mapping
 		Fkts = {
 			// . Constants
-			pi    : Math.PI,		  e     : Math.E,
+			pi    : 'Math.PI',		  e     : 'Math.E',
 			// . Functions
-			sqrt  : Math.sqrt,	  ln    : Math.log,
-			sin   : Math.sin,		asin  : Math.asin,
-			cos   : Math.cos,		acos  : Math.acos,
-			tan   : Math.tan,		atan  : Math.atan,
-			abs   : Math.abs,		pow   : Math.pow,
-			log   : function(x){return Math.log(x) * Math.LOG10E}
-			//sinh
-			//cosh
-			//tanh
-			//asinh
-			//acosh
-			//atanh
+			sqrt  : 'Math.sqrt',	  ln    : 'Math.log',
+			sin   : 'Math.sin',			asin  : 'Math.asin',
+			cos   : 'Math.cos',			acos  : 'Math.acos',
+			tan   : 'Math.tan',			atan  : 'Math.atan',
+			abs   : 'Math.abs',			pow   : 'Math.pow',
+			log   : '(Math.log(x) * Math.LOG10E)'
 		};
 
-		var r;
-
-		// Take care of reciprocal
-		if (s.charAt(0) === '*')
-			r = function( v ){
-				return v; }
-		if (s.charAt(0) === '/')
-			r = function( v ){
-				return 1 / v; }
+		var prefix = s.charAt(0).toString();
 		s = s.substring(1);
 
 		// Bracket term
 		if ( s.charAt(0) === '(' ){
+			if ( s.charAt(s.length - 1) !== ')')
+				throw "syntaxError";
 			var exp = new Expression(s.substring(1, s.length - 1));
-			this.calculate = function(x, a, b, c) {
-				return r( exp.calculate(x, a, b, c) );
-			};
+			this.string = prefix + '(' + exp.string + ')';
 			return;
 		}
 
 		// Function
 		var functions = s.match(RegEx.rFunctionOrPow);
 		if ( functions ){
-			//exp  = new Expression( s.substring( s.indexOf('(') + 1, s.length - 1 ) );
 			var exps = [];
 			s = s.substring( s.indexOf('(') + 1, s.length - 1 );
 			s.split(',').forEach( function(argString){
-				exps.push( new Expression(argString) );
+				exps.push( new Expression(argString).string );
 			});
 			var func = Fkts[functions[0].substring( 0, functions[0].length - 1 )];
-			this.calculate = function(x, a, b, c) {
-				//console.log("F: calculate function:", functions[0].substring( 0, functions[0].length - 1 ), func);
-				var args = [];
-				exps.forEach( function(e){
-					args.push( e.calculate(x, a, b, c));
-				});
-				return r( func.apply( Math, args ) );
-			};
-			console.log("func", func);
+			this.string = prefix + func + '(' + exps.join(',') + ')';
 			return;
 		}
 
 		// Variable or literal
-		if (s === "x")
-			this.calculate = function(x, a, b, c) { return r( x ); };
-		else if (s === "a")
-			this.calculate = function(x, a, b, c) { return r( a ); };
-		else if (s === "b")
-			this.calculate = function(x, a, b, c) { return r( b ); };
-		else if (s === "c")
-			this.calculate = function(x, a, b, c) { return r( c ); };
-		else {
+		if (s === "x" || s === "a" || s === "b" || s === "c" ) {
+			this.string = prefix + s;
+			return;
+		}
+
+		try {
 			var number = parseFloat(s);
-			this.calculate = function(x, a, b, c) { return r( number ); };
+			this.string = prefix + s;
+		} catch (e) {
+			throw "syntaxError";
 		}
 	};
 })();
